@@ -1,3 +1,10 @@
+using Autofac.Extensions.DependencyInjection;
+using Autofac;
+using Hotel;
+using HotelReservationSystem.Profiles;
+using HotelReservationSystem.Helpers;
+using AutoMapper;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,8 +14,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
+    builder.RegisterModule(new AutoFacModule()));
+builder.Services.AddAutoMapper(typeof(RoomProfile));
 var app = builder.Build();
-
+MappHelper.Mapper = app.Services.GetService<IMapper>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
