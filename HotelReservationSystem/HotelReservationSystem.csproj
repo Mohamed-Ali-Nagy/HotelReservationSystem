@@ -27,8 +27,6 @@
     <Folder Include="Middlewares\" />
     <Folder Include="Mediators\" />
     <Folder Include="ViewModels\" />
-    <Folder Include="Services\" />
-    <Folder Include="Repositories\" />
   </ItemGroup>
 
 </Project>
