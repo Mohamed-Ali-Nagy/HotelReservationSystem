@@ -15,11 +15,11 @@ namespace HotelReservationSystem.Data
         public DbSet<RoomFacilities> RoomsFacilities { get; set; }
         public DbSet<RoomOffer> RoomsOffers { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=HotelReservationSystem;Integrated Security=True;TrustServerCertificate=True").
-                LogTo(log => Debug.WriteLine(log), LogLevel.Information).EnableServiceProviderCaching();
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=HotelReservationSystem;Integrated Security=True;TrustServerCertificate=True").
+        //        LogTo(log => Debug.WriteLine(log), LogLevel.Information).EnableServiceProviderCaching();
+        //}
 
 
     }
