@@ -2,9 +2,11 @@
 
 namespace HotelReservationSystem.Models
 {
-    public class Room:BaseModel
+    public class Room : BaseModel
     {
-        public RoomType Type { get; set; }
+        public RoomType roomType { get; set; }
+        public LuxuryLevel luxuryLevel { get; set; }
+
         public double Price { get; set; }
         public List<string> Pictures { get; set; }
         public Reservation Reservation { get; set; }
@@ -14,6 +16,12 @@ namespace HotelReservationSystem.Models
     }
     public enum RoomType
     {
-        None,
+        None, Single, Double
     }
+
+    public enum LuxuryLevel
+    {
+        None, Economic, Bussiness
+    }
+
 }
