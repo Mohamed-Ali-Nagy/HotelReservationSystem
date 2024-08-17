@@ -1,4 +1,5 @@
-﻿using HotelReservationSystem.Models;
+﻿using HotelReservationSystem.Data;
+using HotelReservationSystem.Models;
 
 namespace HotelReservationSystem.Repositories
 {
