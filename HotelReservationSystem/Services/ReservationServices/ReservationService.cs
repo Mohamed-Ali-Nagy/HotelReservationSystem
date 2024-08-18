@@ -55,9 +55,10 @@ namespace HotelReservationSystem.Services.ReservationServices
             return returnReservation.ID;
         }
 
+
         private bool ValidateReservation(ReservationDTO reservationDTO)
         {
-            if (reservationDTO.CheckIn > DateTime.Now 
+            if (reservationDTO.CheckIn >= DateTime.Now 
                 && reservationDTO.CheckOut > reservationDTO.CheckIn)
                 return true;
 
