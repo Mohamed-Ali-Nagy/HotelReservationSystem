@@ -12,6 +12,7 @@ namespace HotelReservationSystem.Repositories
         void Delete(T entity);
         void Delete(int id);
         //T First(Expression<Func<T, bool>> predicate);
+        public IQueryable<T> GetAllPagination(int pageNumber, int pageSize);
 
         void SaveChanges();
     }

@@ -33,5 +33,9 @@ namespace HotelReservationSystem.Mediators.Room
             _roomService.Edit(id, roomViewModel);
             return roomViewModel;
         }
+        public List<RoomGetDTO> GetAll(int pageNumber, int pageSize)
+        {
+            return _roomService.GetAll(pageNumber, pageSize);
+        }
     }
 }

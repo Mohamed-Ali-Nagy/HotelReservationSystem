@@ -39,5 +39,15 @@ namespace HotelReservationSystem.Controllers
             _room_mediator.Delete(id);
             return Ok();
         }
+
+
+        [HttpGet("get")]
+        public IActionResult GetAvailableRoom(int pageNumber, int pageSize)
+        {
+            var updatedRoom = _room_mediator.GetAll(pageNumber, pageSize);
+
+            return Ok(updatedRoom);
+        }
+
     }
 }

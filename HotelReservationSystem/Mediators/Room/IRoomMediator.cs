@@ -7,5 +7,8 @@ namespace HotelReservationSystem.Mediators.Room
         RoomCreateDTO Add(RoomCreateViewModel room);
         RoomEditDTO Edit(int id, RoomEditViewModel room);
         void Delete(int roomid);
+
+        List<RoomGetDTO> GetAll(int pageNumber, int pageSize);
+
     }
 }

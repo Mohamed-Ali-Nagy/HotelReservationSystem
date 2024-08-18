@@ -2,6 +2,7 @@
 using HotelReservationSystem.Helpers;
 using HotelReservationSystem.Models;
 using HotelReservationSystem.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace HotelReservationSystem.Services.RoomServices
 {
@@ -37,6 +38,23 @@ namespace HotelReservationSystem.Services.RoomServices
             _roomRepository.Delete(id);
             _roomRepository.SaveChanges();
         }
+
+
+
+        public List<RoomGetDTO> GetAll(int pageNumber, int pageSize)
+        {
+            List<Room> rooms = _roomRepository.GetAllPagination(pageNumber, pageSize)
+                .Where(a=>a.IsAvailable==true)
+                .Include(a=>a.Facilities)
+                .ToList();
+            List<RoomGetDTO> roomsDTO = new List<RoomGetDTO>();
+            foreach (var room in rooms)
+            {
+                roomsDTO.Add(room.MapOne<RoomGetDTO>());
+            }
+            return roomsDTO;
+        }
+
     }
 
 }

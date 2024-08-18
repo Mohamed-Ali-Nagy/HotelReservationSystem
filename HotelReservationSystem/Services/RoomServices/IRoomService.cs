@@ -8,5 +8,7 @@ namespace HotelReservationSystem.Services.RoomServices
         Room Create(RoomCreateDTO room);
         Room Edit(int id, RoomEditDTO room);
         void Delete(int id);
+        List<RoomGetDTO> GetAll(int pageNumber, int pageSize);
+
     }
 }
