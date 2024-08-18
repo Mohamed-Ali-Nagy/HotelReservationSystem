@@ -2,8 +2,10 @@
 
 namespace HotelReservationSystem.Models
 {
-    public class ApplicationUser:IdentityUser
+
+    public class ApplicationUser : IdentityUser
     {
         public string Fullname { get; set; }
     }
+
 }

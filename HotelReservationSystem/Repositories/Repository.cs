@@ -1,12 +1,15 @@
-﻿using HotelReservationSystem.Data;
+using HotelReservationSystem.Data;
 using HotelReservationSystem.Models;
+
 using System.Linq.Expressions;
+
 
 namespace HotelReservationSystem.Repositories
 {
     public class Repository<T> : IRepository<T> where T : BaseModel, new()
     {
         Context _context;
+
 
         public Repository(Context context)
         {
@@ -21,7 +24,6 @@ namespace HotelReservationSystem.Repositories
 
         public void Delete(T entity)
         {
-            //_context.Set<T>().Remove(entity);
             entity.IsDeleted = true;
             Update(entity);
         }
@@ -48,9 +50,11 @@ namespace HotelReservationSystem.Repositories
             _context.SaveChanges();
         }
 
-        public void Update(T entity)
+        public T Update(T entity)
         {
             _context.Set<T>().Update(entity);
+            return entity;
         }
+
     }
 }
