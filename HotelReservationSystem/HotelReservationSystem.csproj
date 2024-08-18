@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ViewModels\ReservationViewModel\**" />
+    <Content Remove="ViewModels\ReservationViewModel\**" />
+    <EmbeddedResource Remove="ViewModels\ReservationViewModel\**" />
+    <None Remove="ViewModels\ReservationViewModel\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="8.0.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="AutoMapper" Version="13.0.1" />
@@ -22,11 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTO\" />
     <Folder Include="Exceptions\" />
     <Folder Include="Middlewares\" />
     <Folder Include="Mediators\" />
-    <Folder Include="ViewModels\ReservationViewModel\" />
   </ItemGroup>
 
 </Project>

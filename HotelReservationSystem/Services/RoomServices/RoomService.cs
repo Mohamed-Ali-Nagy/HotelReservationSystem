@@ -1,6 +1,8 @@
 ﻿namespace HotelReservationSystem.Services.RoomServices
 {
-    public class RoomService:IReservationService
+    public class RoomService : IRoomService
     {
+
+
     }
 }

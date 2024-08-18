@@ -1,6 +1,6 @@
 ﻿namespace HotelReservationSystem.Services.RoomServices
 {
-    public interface IReservationService
+    public interface IRoomService
     {
     }
 }

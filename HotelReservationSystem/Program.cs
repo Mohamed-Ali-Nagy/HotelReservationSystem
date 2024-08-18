@@ -31,6 +31,7 @@ builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
 
 
 builder.Services.AddAutoMapper(typeof(RoomProfile));
+builder.Services.AddAutoMapper(typeof(ReservationProfile));
 
 
 var app = builder.Build();

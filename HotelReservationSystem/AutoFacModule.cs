@@ -1,6 +1,8 @@
 ﻿using Autofac;
 
 using HotelReservationSystem.Data;
+using HotelReservationSystem.Repositories;
+using HotelReservationSystem.Services.ReservationServices;
 
 namespace Hotel
 {
@@ -9,6 +11,11 @@ namespace Hotel
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<Context>().InstancePerLifetimeScope();
+
+            builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(typeof(IReservationService).Assembly).AsImplementedInterfaces().InstancePerLifetimeScope();
+
         }
     }
 }
