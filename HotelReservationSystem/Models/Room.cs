@@ -1,8 +1,8 @@
-﻿using HotelReservationSystem.Models;
+using HotelReservationSystem.Models;
 
 namespace HotelReservationSystem.Models
 {
-    public class Room:BaseModel
+    public class Room : BaseModel
     {
         public RoomType roomType { get; set; }
 
@@ -32,5 +32,9 @@ namespace HotelReservationSystem.Models
     public enum LuxuryLevel
     {
         None, Economic, Bussiness
+
     }
+
+    
+
 }

@@ -1,11 +1,15 @@
-﻿using HotelReservationSystem.Data;
+using HotelReservationSystem.Data;
 using HotelReservationSystem.Models;
+
+using System.Linq.Expressions;
+
 
 namespace HotelReservationSystem.Repositories
 {
     public class Repository<T> : IRepository<T> where T : BaseModel, new()
     {
-        protected Context _context;
+        Context _context;
+
 
         public Repository(Context context)
         {
@@ -51,7 +55,6 @@ namespace HotelReservationSystem.Repositories
             _context.Set<T>().Update(entity);
             return entity;
         }
-
 
     }
 }
