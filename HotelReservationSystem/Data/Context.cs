@@ -12,7 +12,7 @@ namespace HotelReservationSystem.Data
         public DbSet<Offer> Offers { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Review> Reviews { get; set; }
-        public DbSet<RoomFacilities> RoomsFacilities { get; set; }
+       // public DbSet<RoomFacilities> RoomsFacilities { get; set; }
         public DbSet<RoomOffer> RoomsOffers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
