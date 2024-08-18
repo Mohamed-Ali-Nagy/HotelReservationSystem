@@ -11,11 +11,9 @@ namespace HotelReservationSystem.Models
         public double Price { get; set; }
         
         public List<string> Pictures { get; set; }
-        
         public List<Reservation> Reservation { get; set; }
-        
-        public Facility Facility { get; set; }
-        
+
+        public Facility Facilities { get; set; }
         public bool IsAvailable { get; set; }
         
         public List<RoomOffer> Offers { get; set; }

@@ -39,7 +39,12 @@ namespace HotelReservationSystem.Repositories
         {
             return _context.Set<T>().FirstOrDefault(a => a.IsDeleted != true && a.ID == id);
         }
-
+        public IQueryable<T> GetAllPagination(int pageNumber, int pageSize)
+        {
+            var re = _context.Set<T>().Where(a => a.IsDeleted != true).Skip((pageNumber - 1) * pageSize)
+                                           .Take(pageSize);
+            return re;
+        }
         public void Delete(int id)
         {
             T entity = _context.Find<T>(id);

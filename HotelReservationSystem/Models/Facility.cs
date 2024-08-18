@@ -6,7 +6,6 @@
 
         public bool AirConditioning { get; set; }
 
-        public bool TV {  get; set; }
-
+        public bool TV { get; set; }
     }
 }
