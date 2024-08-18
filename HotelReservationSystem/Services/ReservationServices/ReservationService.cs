@@ -64,15 +64,46 @@ namespace HotelReservationSystem.Services.ReservationServices
             throw new Exception("Check In must be in the future and Check Out after Check In");
         }
 
+
         public ReservationDTO Update(ReservationDTO reservationDTO)
         {
-            throw new NotImplementedException();
+
+            var validReservation = ValidateReservation(reservationDTO);
+
+            Reservation reservation = reservationDTO.MapOne<Reservation>();
+
+            Reservation returnReservation = _repository.Update(reservation);
+
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+
+            return returnReservation.MapOne<ReservationDTO>();
+
         }
 
 
         public void Delete(ReservationDTO reservationDTO)
         {
-            throw new NotImplementedException();
+            Reservation reservation = reservationDTO.MapOne<Reservation>();
+
+            _repository.Delete(reservation);
+
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+            }
+
         }
 
         

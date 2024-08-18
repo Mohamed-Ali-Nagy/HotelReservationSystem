@@ -20,10 +20,11 @@ namespace HotelReservationSystem.Controllers
         }
 
 
+
         [HttpGet]
         public IActionResult GetAll()
         {
-            
+
             var Reservations = _reservationService.GetAll()
                 .Select(x => x.MapOne<ReservationViewModel>());
 
@@ -31,11 +32,12 @@ namespace HotelReservationSystem.Controllers
         }
 
 
-        [HttpGet]
-        public IActionResult GetByID(int id)
+
+        [HttpGet("{ID:int}")]
+        public IActionResult GetByID(int ID)
         {
 
-            var reservation = _reservationService.GetByID(id);
+            var reservation = _reservationService.GetByID(ID);
 
             var reservationViewModel = reservation.MapOne<ReservationViewModel>();
 
@@ -44,17 +46,45 @@ namespace HotelReservationSystem.Controllers
         }
 
 
+
         [HttpPost]
         public IActionResult Add(ReservationViewModel reservationViewModel)
         {
             ReservationDTO reservationDTO = reservationViewModel.MapOne<ReservationDTO>();
-            int id = _reservationService.Add(reservationDTO);
+            int ID = _reservationService.Add(reservationDTO);
 
-            return Ok(id);
+            return Ok(ID);
         }
 
 
 
+        [HttpPut]
+        public IActionResult Update(ReservationViewModel reservationViewModel, int ID)
+        {
+
+            ReservationDTO reservationDTO = reservationViewModel.MapOne<ReservationDTO>();
+
+            reservationDTO.ID = ID;
+
+            ReservationDTO returnReservationDTO = _reservationService.Update(reservationDTO);
+
+            return Ok(returnReservationDTO);
+
+        }
+
+
+
+        [HttpDelete]
+        public IActionResult Delete(int ID)
+        {
+
+            ReservationDTO reservationDTO = _reservationService.GetByID(ID);
+
+            _reservationService.Delete(reservationDTO);
+
+            return Ok();
+
+        }
 
     }
 }

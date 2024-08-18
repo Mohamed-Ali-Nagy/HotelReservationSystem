@@ -20,7 +20,6 @@ namespace HotelReservationSystem.Repositories
 
         public void Delete(T entity)
         {
-            //_context.Set<T>().Remove(entity);
             entity.IsDeleted = true;
             Update(entity);
         }
@@ -47,9 +46,10 @@ namespace HotelReservationSystem.Repositories
             _context.SaveChanges();
         }
 
-        public void Update(T entity)
+        public T Update(T entity)
         {
             _context.Set<T>().Update(entity);
+            return entity;
         }
 
 

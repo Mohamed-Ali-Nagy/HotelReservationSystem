@@ -5,6 +5,7 @@ namespace HotelReservationSystem.DTO.Reservation
     public class ReservationDTO
     {
 
+        public int ID { get; set; }
 
         public DateTime CheckIn { get; set; }
 

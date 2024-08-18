@@ -8,7 +8,7 @@ namespace HotelReservationSystem.Repositories
         IQueryable<T> GetAll();
         T GetByID(int id);
         T Add(T entity);
-        void Update(T entity);
+        T Update(T entity);
         void Delete(T entity);
         void Delete(int id);
         void SaveChanges();
