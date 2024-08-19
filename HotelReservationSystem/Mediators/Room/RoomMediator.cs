@@ -15,8 +15,6 @@ namespace HotelReservationSystem.Mediators.Room
         public RoomCreateDTO Add(RoomCreateViewModel room)
         {
             var roomViewModel = room.MapOne<RoomCreateDTO>();
-
-            //IEnumerable<Room> r = room.Map<Room>();
             _roomService.Create(roomViewModel);
             return roomViewModel;
         }
