@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HotelReservationSystem.DTO.Room;
 using HotelReservationSystem.Models;
+using HotelReservationSystem.ViewModels.Room;
 
 namespace HotelReservationSystem.Profiles
 {
@@ -8,14 +9,15 @@ namespace HotelReservationSystem.Profiles
     {
         public RoomProfile()
         {
-            CreateMap<RoomCreateViewModel, RoomCreateDTO>().ReverseMap();
+            CreateMap<RoomCreateVM, RoomCreateDTO>().ReverseMap();
             CreateMap<Room, RoomCreateDTO>().ReverseMap();
+            CreateMap<Room, RoomResponseDTO>().ReverseMap();
+            CreateMap<RoomResponseDTO,RoomResponseVM>();
+            CreateMap<RoomPicturesDTO, RoomPicturesVM>().ReverseMap();
+            CreateMap<RoomUpdateVM, RoomUpdateDTO>();
+            CreateMap<RoomUpdateDTO,Room>();
             
             
-            CreateMap<RoomEditViewModel, RoomEditDTO>().ReverseMap();
-            CreateMap<Room, RoomEditDTO>().ReverseMap();
-
-
             CreateMap<Room, RoomGetDTO>().ReverseMap();
             CreateMap<RoomGetViewModel, RoomGetDTO>().ReverseMap();
         }

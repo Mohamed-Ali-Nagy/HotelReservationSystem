@@ -5,10 +5,11 @@ namespace HotelReservationSystem.Services.RoomServices
 {
     public interface IRoomService
     {
-        Room Create(RoomCreateDTO room);
-        Room Edit(int id, RoomEditDTO room);
-        void Delete(int id);
-        List<RoomGetDTO> GetAll(int pageNumber, int pageSize);
-
+        public void Delete(int roomID);
+        public void Update(RoomUpdateDTO roomUpdateDTO);
+        public RoomResponseDTO Get(int  id);
+        public int UpdateRoomPictures(RoomPicturesDTO roomPicturesDTO);
+        public RoomResponseDTO Add(RoomCreateDTO roomCreateDTO);
+        public IEnumerable<string> GetRoomPictures(int roomID);
     }
 }

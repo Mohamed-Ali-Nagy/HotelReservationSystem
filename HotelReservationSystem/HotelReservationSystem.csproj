@@ -28,10 +28,4 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Exceptions\" />
-    <Folder Include="Middlewares\" />
-    <Folder Include="Mediators\" />
-  </ItemGroup>
-
 </Project>

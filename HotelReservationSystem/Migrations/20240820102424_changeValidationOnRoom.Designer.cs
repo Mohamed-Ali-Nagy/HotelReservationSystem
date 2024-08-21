@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelReservationSystem.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240818123126_UpdateDB")]
-    partial class UpdateDB
+    [Migration("20240820102424_changeValidationOnRoom")]
+    partial class changeValidationOnRoom
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,17 +53,12 @@ namespace HotelReservationSystem.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<bool>("AirConditioning")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("TV")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("WI_FI")
-                        .HasColumnType("bit");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
@@ -171,17 +166,10 @@ namespace HotelReservationSystem.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<int>("FacilityID")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsAvailable")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("Pictures")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Price")
@@ -195,9 +183,33 @@ namespace HotelReservationSystem.Migrations
 
                     b.HasKey("ID");
 
+                    b.ToTable("Rooms");
+                });
+
+            modelBuilder.Entity("HotelReservationSystem.Models.RoomFacilities", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<int>("FacilityID")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("RoomID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
                     b.HasIndex("FacilityID");
 
-                    b.ToTable("Rooms");
+                    b.HasIndex("RoomID");
+
+                    b.ToTable("RoomsFacilities");
                 });
 
             modelBuilder.Entity("HotelReservationSystem.Models.RoomOffer", b =>
@@ -245,15 +257,23 @@ namespace HotelReservationSystem.Migrations
                     b.Navigation("Room");
                 });
 
-            modelBuilder.Entity("HotelReservationSystem.Models.Room", b =>
+            modelBuilder.Entity("HotelReservationSystem.Models.RoomFacilities", b =>
                 {
                     b.HasOne("HotelReservationSystem.Models.Facility", "Facility")
-                        .WithMany()
+                        .WithMany("RoomsFacilites")
                         .HasForeignKey("FacilityID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("HotelReservationSystem.Models.Room", "Room")
+                        .WithMany("Facilities")
+                        .HasForeignKey("RoomID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Facility");
+
+                    b.Navigation("Room");
                 });
 
             modelBuilder.Entity("HotelReservationSystem.Models.RoomOffer", b =>
@@ -280,6 +300,11 @@ namespace HotelReservationSystem.Migrations
                     b.Navigation("Reservation");
                 });
 
+            modelBuilder.Entity("HotelReservationSystem.Models.Facility", b =>
+                {
+                    b.Navigation("RoomsFacilites");
+                });
+
             modelBuilder.Entity("HotelReservationSystem.Models.Offer", b =>
                 {
                     b.Navigation("Rooms");
@@ -287,6 +312,8 @@ namespace HotelReservationSystem.Migrations
 
             modelBuilder.Entity("HotelReservationSystem.Models.Room", b =>
                 {
+                    b.Navigation("Facilities");
+
                     b.Navigation("Offers");
 
                     b.Navigation("Reservation");

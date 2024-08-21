@@ -12,28 +12,48 @@ namespace HotelReservationSystem.Mediators.Room
         {
             _roomService = roomService;
         }
-        public RoomCreateDTO Add(RoomCreateViewModel room)
+        
+        public RoomResponseDTO Get(int id)
         {
-            var roomViewModel = room.MapOne<RoomCreateDTO>();
-            _roomService.Create(roomViewModel);
-            return roomViewModel;
+           var roomResponseDTO= _roomService.Get(id);
+            return roomResponseDTO;
+        }
+        public RoomResponseDTO Add(RoomCreateDTO roomCreateDTO)
+        {
+            var room = _roomService.Add(roomCreateDTO);
+            return room;
+        }
+        public int UpdateRoomPictures(RoomPicturesDTO roomPicturesDTO)
+        {
+          int roomID=  _roomService.UpdateRoomPictures(roomPicturesDTO);
+          return roomID;
+        }
+        public IEnumerable<string> GetRoomPictures(int roomID)
+        {
+           var roomPictures= _roomService.GetRoomPictures(roomID);
+            return roomPictures;
         }
 
-        public void Delete(int roomid)
+        public void Update(RoomUpdateDTO roomUpdateDTO)
         {
-            _roomService.Delete(roomid);
+            _roomService.Update(roomUpdateDTO);
         }
 
-        public RoomEditDTO Edit(int id, RoomEditViewModel room)
+        public void Delete(int roomID)
         {
-            var roomViewModel = room.MapOne<RoomEditDTO>();
+            _roomService.Delete(roomID);
+        }
 
-            _roomService.Edit(id, roomViewModel);
-            return roomViewModel;
-        }
-        public List<RoomGetDTO> GetAll(int pageNumber, int pageSize)
-        {
-            return _roomService.GetAll(pageNumber, pageSize);
-        }
+        //public RoomEditDTO Edit(int id, RoomEditViewModel room)
+        //{
+        //    var roomViewModel = room.MapOne<RoomEditDTO>();
+
+        //    _roomService.Edit(id, roomViewModel);
+        //    return roomViewModel;
+        //}
+        //public List<RoomGetDTO> GetAll(int pageNumber, int pageSize)
+        //{
+        //    return _roomService.GetAll(pageNumber, pageSize);
+        //}
     }
 }

@@ -11,10 +11,12 @@ namespace HotelReservationSystem.Data
 
         public Context(DbContextOptions<Context> option) : base(option)
         {
+            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Facility> Facilities { get; set; }
+        public DbSet<RoomFacilities> RoomsFacilities { get; set; }
         public DbSet<Offer> Offers { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Review> Reviews { get; set; }

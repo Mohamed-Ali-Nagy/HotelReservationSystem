@@ -10,7 +10,6 @@ namespace HotelReservationSystem.Repositories
     {
         Context _context;
 
-
         public Repository(Context context)
         {
             _context = context;
@@ -29,7 +28,10 @@ namespace HotelReservationSystem.Repositories
         }
 
 
-
+        public void AddRange(List<T> entities)
+        {
+            _context.Set<T>().AddRange(entities);
+        }
         public IQueryable<T> GetAll()
         {
             return _context.Set<T>().Where(a => a.IsDeleted != true);

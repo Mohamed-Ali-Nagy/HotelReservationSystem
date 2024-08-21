@@ -1,4 +1,5 @@
 ﻿using HotelReservationSystem.DTO.Room;
+using HotelReservationSystem.Exceptions;
 using HotelReservationSystem.Helpers;
 using HotelReservationSystem.Models;
 using HotelReservationSystem.Repositories;
@@ -14,46 +15,91 @@ namespace HotelReservationSystem.Services.RoomServices
         {
             _roomRepository = roomRepository;
         }
-
-        public Room Create(RoomCreateDTO room)
+        private Room GetByID(int id)
         {
-            var roomDTO = room.MapOne<Room>();
-            roomDTO.IsAvailable = true;
-            var newRoom = _roomRepository.Add(roomDTO);
-            _roomRepository.SaveChanges();
-            return newRoom;
-        }
-
-        public Room Edit(int id, RoomEditDTO room)
-        {
-            var roomDTO = room.MapOne<Room>();
-            roomDTO.ID = id;
-            _roomRepository.Update(roomDTO);
-            _roomRepository.SaveChanges();
-            return roomDTO;
-        }
-
-        public void Delete(int id)
-        {
-            _roomRepository.Delete(id);
-            _roomRepository.SaveChanges();
-        }
-
-
-
-        public List<RoomGetDTO> GetAll(int pageNumber, int pageSize)
-        {
-            List<Room> rooms = _roomRepository.GetAllPagination(pageNumber, pageSize)
-                .Where(a=>a.IsAvailable==true)
-                .Include(a=>a.Facilities)
-                .ToList();
-            List<RoomGetDTO> roomsDTO = new List<RoomGetDTO>();
-            foreach (var room in rooms)
+            var room = _roomRepository.GetByID(id);
+            if (room == null)
             {
-                roomsDTO.Add(room.MapOne<RoomGetDTO>());
+                throw new BusinessException(ErrorCode.InvalidRoomID, "Room ID not found");
             }
-            return roomsDTO;
+            return room;
         }
+        public RoomResponseDTO Get(int id)
+        {
+            var roomResponseDTO = GetByID(id).MapOne<RoomResponseDTO>();
+            return roomResponseDTO;
+        }
+        public RoomResponseDTO Add(RoomCreateDTO roomCreateDTO)
+        {
+            var room = roomCreateDTO.MapOne<Room>();
+            _roomRepository.Add(room);
+            _roomRepository.SaveChanges();
+            return room.MapOne<RoomResponseDTO>();
+        }
+        public int UpdateRoomPictures(RoomPicturesDTO roomPicturesDTO)
+        {
+            Room room = GetByID(roomPicturesDTO.RoomID);
+
+            room.Pictures = roomPicturesDTO.Pictures;
+            _roomRepository.Update(room);
+            _roomRepository.SaveChanges();
+            return room.ID;
+        }
+
+        public IEnumerable<string> GetRoomPictures(int roomID)
+        {
+            var room = GetByID(roomID);
+            return room.Pictures;
+        }
+
+        public void Update(RoomUpdateDTO roomUpdateDTO)
+        {
+            var oldRoom = GetByID(roomUpdateDTO.ID);
+            var newRoom = roomUpdateDTO.MapOne<Room>();
+            newRoom.Pictures =oldRoom.Pictures;
+            _roomRepository.Update(newRoom);
+            _roomRepository.SaveChanges();
+
+        }
+
+        public void Delete(int roomID)
+        {
+           var room= GetByID(roomID);
+            _roomRepository.Delete(room);
+            _roomRepository.SaveChanges();
+        }
+
+
+        //public Room Edit(int id, RoomEditDTO room)
+        //{
+        //    var roomDTO = room.MapOne<Room>();
+        //    roomDTO.ID = id;
+        //    _roomRepository.Update(roomDTO);
+        //    _roomRepository.SaveChanges();
+        //    return roomDTO;
+        //}
+
+        //public void Delete(int id)
+        //{
+        //    _roomRepository.Delete(id);
+        //    _roomRepository.SaveChanges();
+        //}
+
+
+
+        //public List<RoomGetDTO> GetAll(int pageNumber, int pageSize)
+        //{
+        //    List<Room> rooms = _roomRepository.GetAllPagination(pageNumber, pageSize)
+        //        .Where(a=>a.IsAvailable==true)
+        //        .Include(a=>a.Facilities)
+        //        .ToList();
+        //    List<RoomGetDTO> roomsDTO = new List<RoomGetDTO>();
+        //    foreach (var room in rooms)
+        //    {
+        //        roomsDTO.Add(room.MapOne<RoomGetDTO>());
+        //    }
+        //    return roomsDTO;
+        //}
 
     }
 

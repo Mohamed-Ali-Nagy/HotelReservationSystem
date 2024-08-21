@@ -1,9 +1,9 @@
-﻿//using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using HotelReservationSystem.Models;
-//using HotelReservationSystem.Mediator;
+﻿using HotelReservationSystem.DTO.Room;
+using HotelReservationSystem.Helpers;
 using HotelReservationSystem.Mediators.Room;
-using HotelReservationSystem.DTO.Room;
+using HotelReservationSystem.ViewModels;
+using HotelReservationSystem.ViewModels.Room;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HotelReservationSystem.Controllers
 {
@@ -11,43 +11,54 @@ namespace HotelReservationSystem.Controllers
     [ApiController]
     public class RoomController : ControllerBase
     {
-        private readonly IRoomMediator _room_mediator;
+        private readonly IRoomMediator _roomMediator;
 
-        public RoomController(IRoomMediator room_mediator)
+        public RoomController(IRoomMediator roomMediator)
         {
-            _room_mediator = room_mediator;
+            _roomMediator = roomMediator;
+        }
+        [HttpGet("Get")]
+        public IActionResult Get(int id)
+        {
+            var roomResponseDTO= _roomMediator.Get(id);
+            return Ok(ResultViewModel<RoomResponseVM>.Success(roomResponseDTO.MapOne<RoomResponseVM>()));
+
         }
 
-        [HttpPost("create")]
-        public IActionResult CreateRoom([FromBody] RoomCreateViewModel room)
+        [HttpPost("Add")]
+        public IActionResult Add(RoomCreateVM roomCreateViewModel)
         {
-            var createdRoom = _room_mediator.Add(room);
-            return Ok(createdRoom);
+            var roomResponseDTO = _roomMediator.Add(roomCreateViewModel.MapOne<RoomCreateDTO>());
+            var roomResponseVM=roomResponseDTO.MapOne<RoomResponseVM>();
+            return Ok(ResultViewModel<RoomResponseVM>.Success(roomResponseVM, "Room added successfully"));
+        }
+        [HttpPost("UpdateRoomPictures")]
+        public IActionResult UpdateRoomPictures(RoomPicturesVM roomPicturesVM)
+        {
+            int roomID = _roomMediator.UpdateRoomPictures(roomPicturesVM.MapOne<RoomPicturesDTO>());
+            return Ok(ResultViewModel<int>.Success(roomID));
+        }
+        [HttpGet("GetRoomPictures")]
+        public IActionResult GetRoomPictures(int roomID)
+        {
+          var pictures=  _roomMediator.GetRoomPictures(roomID);
+            return Ok(ResultViewModel<List<string>>.Success(pictures,""));
+        }
+        [HttpPut("Update")]
+        public IActionResult Update(RoomUpdateVM roomUpdateVM)
+        {
+            var roomUpdateDTO=roomUpdateVM.MapOne<RoomUpdateDTO>();
+            _roomMediator.Update(roomUpdateDTO);
+            return Ok(ResultViewModel<int>.Success(roomUpdateDTO.ID));
         }
 
-        [HttpPut("edit")]
-        public IActionResult EditRoom(int id, [FromBody] RoomEditViewModel room)
+        [HttpDelete("Delete")]
+        public IActionResult Delete(int roomID)
         {
-            var updatedRoom = _room_mediator.Edit(id, room);
-
-            return Ok(updatedRoom);
+            _roomMediator.Delete(roomID);
+            return Ok(ResultViewModel<bool>.Success(true,""));
         }
 
-        [HttpDelete("delete/{id}")]
-        public IActionResult DeleteRoom(int id)
-        {
-            _room_mediator.Delete(id);
-            return Ok();
-        }
-
-
-        [HttpGet("get")]
-        public IActionResult GetAvailableRoom(int pageNumber, int pageSize)
-        {
-            var updatedRoom = _room_mediator.GetAll(pageNumber, pageSize);
-
-            return Ok(updatedRoom);
-        }
 
     }
 }

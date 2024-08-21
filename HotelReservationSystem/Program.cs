@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using HotelReservationSystem.Data;
 using System.Diagnostics;
+using HotelReservationSystem.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,7 +41,7 @@ builder.Services.AddAutoMapper(typeof(ReservationProfile));
 var app = builder.Build();
 
 MappHelper.Mapper = app.Services.GetService<IMapper>();
-
+app.UseMiddleware<GlobalErrorHandlerMiddleware>();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
