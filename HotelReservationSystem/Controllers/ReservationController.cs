@@ -1,5 +1,6 @@
 ﻿using HotelReservationSystem.DTO.Reservation;
 using HotelReservationSystem.Helpers;
+using HotelReservationSystem.Mediators.Reservation;
 using HotelReservationSystem.Services.ReservationServices;
 using HotelReservationSystem.ViewModels.Reservation;
 using Microsoft.AspNetCore.Http;
@@ -12,11 +13,11 @@ namespace HotelReservationSystem.Controllers
     public class ReservationController : ControllerBase
     {
 
-        IReservationService _reservationService;
+        IReservationMediator _reservationMediator;
 
-        public ReservationController(IReservationService reservationService)
+        public ReservationController(IReservationMediator reservationMediator)
         {
-            _reservationService = reservationService;
+            _reservationMediator = reservationMediator;
         }
 
 
@@ -25,7 +26,7 @@ namespace HotelReservationSystem.Controllers
         public IActionResult GetAll()
         {
 
-            var Reservations = _reservationService.GetAll()
+            var Reservations = _reservationMediator.GetAll()
                 .Select(x => x.MapOne<ReservationViewModel>());
 
             return Ok(Reservations);
@@ -37,7 +38,7 @@ namespace HotelReservationSystem.Controllers
         public IActionResult GetByID(int ID)
         {
 
-            var reservation = _reservationService.GetByID(ID);
+            var reservation = _reservationMediator.GetByID(ID);
 
             var reservationViewModel = reservation.MapOne<ReservationViewModel>();
 
@@ -51,7 +52,7 @@ namespace HotelReservationSystem.Controllers
         public IActionResult Add(ReservationViewModel reservationViewModel)
         {
             ReservationDTO reservationDTO = reservationViewModel.MapOne<ReservationDTO>();
-            int ID = _reservationService.Add(reservationDTO);
+            int ID = _reservationMediator.Add(reservationDTO);
 
             return Ok(ID);
         }
@@ -66,7 +67,7 @@ namespace HotelReservationSystem.Controllers
 
             reservationDTO.ID = ID;
 
-            ReservationDTO returnReservationDTO = _reservationService.Update(reservationDTO);
+            ReservationDTO returnReservationDTO = _reservationMediator.Update(reservationDTO);
 
             return Ok(returnReservationDTO);
 
@@ -75,12 +76,10 @@ namespace HotelReservationSystem.Controllers
 
 
         [HttpDelete]
-        public IActionResult Delete(int ID)
+        public IActionResult Delete(int ReservationID)
         {
 
-            ReservationDTO reservationDTO = _reservationService.GetByID(ID);
-
-            _reservationService.Delete(reservationDTO);
+            _reservationMediator.Delete(ReservationID);
 
             return Ok();
 

@@ -1,12 +1,11 @@
 ﻿using HotelReservationSystem.DTO.Reservation;
 using HotelReservationSystem.DTO.Room;
-using HotelReservationSystem.Models;
 
-namespace HotelReservationSystem.Services.ReservationServices
+namespace HotelReservationSystem.Mediators.Reservation
 {
-    public interface IReservationService
+    public interface IReservationMediator
     {
-        
+
         IEnumerable<ReservationDTO> GetAll();
 
         ReservationDTO GetByID(int id);
@@ -16,8 +15,6 @@ namespace HotelReservationSystem.Services.ReservationServices
         ReservationDTO Update(ReservationDTO reservationDTO);
 
         void Delete(int ReservationID);
-
-        public IEnumerable<RoomsReservedDTO> GetAllRoomsReserved(DateTime FilterDate);
 
     }
 }

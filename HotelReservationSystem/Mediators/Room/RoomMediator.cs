@@ -44,6 +44,8 @@ namespace HotelReservationSystem.Mediators.Room
             _roomService.Delete(roomID);
         }
 
+      
+
         //public RoomEditDTO Edit(int id, RoomEditViewModel room)
         //{
         //    var roomViewModel = room.MapOne<RoomEditDTO>();

@@ -12,6 +12,7 @@ namespace HotelReservationSystem.Controllers
     [ApiController]
     public class FacilityController : ControllerBase
     {
+        
         private readonly IFacilityMediator _mediator;
         public FacilityController(IFacilityMediator facilityMediator)
         {
