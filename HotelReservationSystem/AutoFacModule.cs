@@ -1,11 +1,11 @@
 ﻿using Autofac;
-
 using HotelReservationSystem.Data;
 using HotelReservationSystem.Repositories;
 using HotelReservationSystem.Services.ReservationServices;
 using HotelReservationSystem.Mediators.Room;
-using HotelReservationSystem.Repositories;
 using HotelReservationSystem.Services.RoomServices;
+using HotelReservationSystem.Services.ReviewService;
+using HotelReservationSystem.Mediators.ReviewMediators;
 
 namespace Hotel
 {
@@ -23,6 +23,8 @@ namespace Hotel
             builder.RegisterType<RoomMediator>().As<IRoomMediator>().InstancePerLifetimeScope();
             builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
 
+            builder.RegisterType<ReviewService>().As<IReviewService>().InstancePerLifetimeScope();
+            builder.RegisterType<ReviewMeditator>().As<IReviewMeditator>().InstancePerLifetimeScope();
         }
     }
 }
