@@ -1,4 +1,5 @@
-﻿using HotelReservationSystem.DTO.Room;
+﻿using HotelReservationSystem.DTO.Reservation;
+using HotelReservationSystem.DTO.Room;
 using HotelReservationSystem.Exceptions;
 using HotelReservationSystem.Helpers;
 using HotelReservationSystem.Models;
@@ -67,6 +68,20 @@ namespace HotelReservationSystem.Services.RoomServices
            var room= GetByID(roomID);
             _roomRepository.Delete(room);
             _roomRepository.SaveChanges();
+        }
+
+        public IEnumerable<RoomResponseDTO> SearchRoomsAvailability(IEnumerable<RoomsReservedDTO> roomsReservedDTO)
+        {
+
+            var rooms = _roomRepository.GetAll()
+                .Where(room => roomsReservedDTO
+                    .All(roomsReserved => roomsReserved.RoomID != room.ID)
+                    );
+
+
+            var roomsDTO = rooms.Map<RoomResponseDTO>();
+
+            return roomsDTO;
         }
 
 

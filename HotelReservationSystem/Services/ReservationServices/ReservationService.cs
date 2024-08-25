@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using HotelReservationSystem.DTO.Reservation;
+using HotelReservationSystem.DTO.Room;
 using HotelReservationSystem.Helpers;
 using HotelReservationSystem.Models;
 using HotelReservationSystem.Repositories;
+using HotelReservationSystem.ViewModels.Reservation;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotelReservationSystem.Services.ReservationServices
@@ -90,11 +92,10 @@ namespace HotelReservationSystem.Services.ReservationServices
         }
 
 
-        public void Delete(ReservationDTO reservationDTO)
+        public void Delete(int ReservationID)
         {
-            Reservation reservation = reservationDTO.MapOne<Reservation>();
 
-            _repository.Delete(reservation);
+            _repository.Delete(ReservationID);
 
             try
             {
@@ -107,6 +108,20 @@ namespace HotelReservationSystem.Services.ReservationServices
 
         }
 
-        
+
+        public IEnumerable<RoomsReservedDTO> GetAllRoomsReserved(DateTime FilterDate)
+        {
+            var roomsReserved = _repository.GetAll()
+                               .Where(r => r.CheckIn > FilterDate
+                                            && r.CheckOut < FilterDate)
+                               .Select(r => r.MapOne<RoomsReservedDTO>());
+
+
+            return roomsReserved;
+
+            
+        }
+
+
     }
 }

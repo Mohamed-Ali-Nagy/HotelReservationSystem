@@ -11,6 +11,7 @@ namespace HotelReservationSystem.Helpers
         {
             return source.ProjectTo<TResult>(Mapper.ConfigurationProvider);
         }
+
         public static TResult MapOne<TResult>(this object source)
         {
             return Mapper.Map<TResult>(source);

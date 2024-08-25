@@ -1,4 +1,5 @@
-﻿using HotelReservationSystem.DTO.Room;
+﻿using HotelReservationSystem.DTO.Reservation;
+using HotelReservationSystem.DTO.Room;
 using HotelReservationSystem.Models;
 
 namespace HotelReservationSystem.Services.RoomServices
@@ -11,5 +12,7 @@ namespace HotelReservationSystem.Services.RoomServices
         public int UpdateRoomPictures(RoomPicturesDTO roomPicturesDTO);
         public RoomResponseDTO Add(RoomCreateDTO roomCreateDTO);
         public IEnumerable<string> GetRoomPictures(int roomID);
+
+        public IEnumerable<RoomResponseDTO> SearchRoomsAvailability(IEnumerable<RoomsReservedDTO> roomsReservedDTO);
     }
 }

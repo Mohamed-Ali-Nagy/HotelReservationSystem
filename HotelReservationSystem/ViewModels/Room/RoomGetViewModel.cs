@@ -13,6 +13,6 @@ namespace HotelReservationSystem.DTO.Room
         //public bool IsDeleted { get; set; } = false;
 
         public Facility Facilities { get; set; }
-        public bool IsAvailable { get; set; }
+
     }
 }

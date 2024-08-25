@@ -10,6 +10,8 @@ namespace HotelReservationSystem.Mediators.Room
         public IEnumerable<string> GetRoomPictures(int roomID);
         RoomResponseDTO Add(RoomCreateDTO room);
         public int UpdateRoomPictures(RoomPicturesDTO roomPicturesDTO);
+
+
         //RoomResponseDTO Edit(int id, RoomEditViewModel room);
         //void Delete(int roomid);
 
