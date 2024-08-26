@@ -1,9 +1,13 @@
 ﻿using HotelReservationSystem.DTO.Room;
 using HotelReservationSystem.Helpers;
 using HotelReservationSystem.Mediators.Room;
+using HotelReservationSystem.Mediators.RoomAvailability;
+using HotelReservationSystem.Models;
 using HotelReservationSystem.ViewModels;
+using HotelReservationSystem.ViewModels.Reservation;
 using HotelReservationSystem.ViewModels.Room;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace HotelReservationSystem.Controllers
 {
@@ -11,12 +15,18 @@ namespace HotelReservationSystem.Controllers
     [ApiController]
     public class RoomController : ControllerBase
     {
-        private readonly IRoomMediator _roomMediator;
 
-        public RoomController(IRoomMediator roomMediator)
+        private readonly IRoomMediator _roomMediator;
+        private readonly IRoomAvailabilityMediator _roomAvailabilityMediator;
+
+        public RoomController(IRoomMediator roomMediator 
+            ,IRoomAvailabilityMediator roomAvailabilityMediator)
         {
             _roomMediator = roomMediator;
+            _roomAvailabilityMediator = roomAvailabilityMediator;
+
         }
+        
         [HttpGet("Get")]
         public IActionResult Get(int id)
         {
@@ -32,18 +42,21 @@ namespace HotelReservationSystem.Controllers
             var roomResponseVM=roomResponseDTO.MapOne<RoomResponseVM>();
             return Ok(ResultViewModel<RoomResponseVM>.Success(roomResponseVM, "Room added successfully"));
         }
-        [HttpPost("UpdateRoomPictures")]
+
+        [HttpPut("UpdateRoomPictures")]
         public IActionResult UpdateRoomPictures(RoomPicturesVM roomPicturesVM)
         {
             int roomID = _roomMediator.UpdateRoomPictures(roomPicturesVM.MapOne<RoomPicturesDTO>());
             return Ok(ResultViewModel<int>.Success(roomID));
         }
+
         [HttpGet("GetRoomPictures")]
         public IActionResult GetRoomPictures(int roomID)
         {
           var pictures=  _roomMediator.GetRoomPictures(roomID);
             return Ok(ResultViewModel<List<string>>.Success(pictures,""));
         }
+
         [HttpPut("Update")]
         public IActionResult Update(RoomUpdateVM roomUpdateVM)
         {
@@ -59,6 +72,17 @@ namespace HotelReservationSystem.Controllers
             return Ok(ResultViewModel<bool>.Success(true,""));
         }
 
+
+        [HttpGet("SearchRoomsAvailability")]
+        public IActionResult SearchRoomsAvailability(FilterRooms filterRooms)
+        {
+
+            var RoomsVM = _roomAvailabilityMediator.SearchRoomsAvailability(filterRooms.FilterDate)
+                .Select(x => x.MapOne<RoomResponseVM>());
+
+            return Ok(ResultViewModel<RoomResponseVM>.Success(RoomsVM));
+
+        }
 
     }
 }

@@ -1,4 +1,4 @@
-﻿using Autofac;
+using Autofac;
 using HotelReservationSystem.Data;
 using HotelReservationSystem.Repositories;
 using HotelReservationSystem.Services.ReservationServices;
@@ -6,6 +6,10 @@ using HotelReservationSystem.Mediators.Room;
 using HotelReservationSystem.Services.RoomServices;
 using HotelReservationSystem.Services.ReviewService;
 using HotelReservationSystem.Mediators.ReviewMediators;
+using HotelReservationSystem.Mediators.Reservation;
+using HotelReservationSystem.Services.FacilityServices;
+using HotelReservationSystem.Mediators.FacilityMediators;
+using HotelReservationSystem.Mediators.RoomAvailability;
 
 namespace Hotel
 {
@@ -17,11 +21,18 @@ namespace Hotel
 
             builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
 
-            builder.RegisterAssemblyTypes(typeof(IReservationService).Assembly).AsImplementedInterfaces().InstancePerLifetimeScope();
+        
+
+            builder.RegisterType<ReservationService>().As<IReservationService>().InstancePerLifetimeScope();
+            builder.RegisterType<ReservationMediator>().As<IReservationMediator>().InstancePerLifetimeScope();
 
             builder.RegisterType<RoomService>().As<IRoomService>().InstancePerLifetimeScope();
             builder.RegisterType<RoomMediator>().As<IRoomMediator>().InstancePerLifetimeScope();
-            builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
+
+            builder.RegisterType<FacilityService>().As<IFacilityService>().InstancePerLifetimeScope();
+            builder.RegisterType<FacilityMediator>().As<IFacilityMediator>().InstancePerLifetimeScope();
+
+            builder.RegisterType<RoomAvailabilityMediator>().As<IRoomAvailabilityMediator>().InstancePerLifetimeScope();
 
             builder.RegisterType<ReviewService>().As<IReviewService>().InstancePerLifetimeScope();
             builder.RegisterType<ReviewMeditator>().As<IReviewMeditator>().InstancePerLifetimeScope();
