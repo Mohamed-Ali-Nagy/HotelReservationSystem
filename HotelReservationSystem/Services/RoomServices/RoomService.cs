@@ -74,9 +74,9 @@ namespace HotelReservationSystem.Services.RoomServices
         {
 
             var rooms = _roomRepository.GetAll()
-                .Where(room => roomsReservedDTO
-                    .All(roomsReserved => roomsReserved.RoomID != room.ID)
-                    );
+                    .Where(room => roomsReservedDTO
+                        .All(roomReserved => roomReserved.RoomID != room.ID)
+                        );
 
 
             var roomsDTO = rooms.Map<RoomResponseDTO>();

@@ -1,4 +1,5 @@
-﻿using HotelReservationSystem.DTO.Room;
+﻿using HotelReservationSystem.DTO.Reservation;
+using HotelReservationSystem.DTO.Room;
 using HotelReservationSystem.Helpers;
 using HotelReservationSystem.Mediators.Room;
 using HotelReservationSystem.Mediators.RoomAvailability;
@@ -73,14 +74,14 @@ namespace HotelReservationSystem.Controllers
         }
 
 
-        [HttpGet("SearchRoomsAvailability")]
+        [HttpPost("SearchRoomsAvailability")]
         public IActionResult SearchRoomsAvailability(FilterRooms filterRooms)
         {
 
             var RoomsVM = _roomAvailabilityMediator.SearchRoomsAvailability(filterRooms.FilterDate)
-                .Select(x => x.MapOne<RoomResponseVM>());
+                .Select(x => x.MapOne<RoomResponseDTO>());
 
-            return Ok(ResultViewModel<RoomResponseVM>.Success(RoomsVM));
+            return Ok(ResultViewModel<RoomResponseDTO>.Success(RoomsVM));
 
         }
 

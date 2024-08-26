@@ -6,6 +6,7 @@ using HotelReservationSystem.Models;
 using HotelReservationSystem.Repositories;
 using HotelReservationSystem.ViewModels.Reservation;
 using Microsoft.EntityFrameworkCore;
+using System.Collections;
 
 namespace HotelReservationSystem.Services.ReservationServices
 {
@@ -112,10 +113,11 @@ namespace HotelReservationSystem.Services.ReservationServices
         public IEnumerable<RoomsReservedDTO> GetAllRoomsReserved(DateTime FilterDate)
         {
             var roomsReserved = _repository.GetAll()
-                               .Where(r => r.CheckIn > FilterDate
-                                            && r.CheckOut < FilterDate)
+                               .Where(r => r.CheckIn < FilterDate
+                                            && r.CheckOut > FilterDate)
                                .Select(r => r.MapOne<RoomsReservedDTO>());
 
+            _repository.SaveChanges();
 
             return roomsReserved;
 
