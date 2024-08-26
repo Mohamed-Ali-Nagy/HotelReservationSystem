@@ -21,7 +21,7 @@ namespace HotelReservationSystem.Mediators.RoomAvailability
 
         public IEnumerable<RoomResponseDTO> SearchRoomsAvailability(DateTime FilterDate)
         {
-            var roomsReservedDTO =  _reservationService.GetAllRoomsReserved(FilterDate);
+            var roomsReservedDTO =   _reservationService.GetAllRoomsReserved(FilterDate);
 
             var roomsAvailabilityDTO = _roomService.SearchRoomsAvailability(roomsReservedDTO);
 
