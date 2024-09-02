@@ -39,7 +39,7 @@ namespace HotelReservationSystem.Services.ReservationServices
 
         public int Add(ReservationDTO reservationDTO)
         {
-            var validReservation = ValidateReservation(reservationDTO);
+            //var validReservation = ValidateReservation(reservationDTO);
 
             Reservation reservation = reservationDTO.MapOne<Reservation>();
 
@@ -59,20 +59,20 @@ namespace HotelReservationSystem.Services.ReservationServices
         }
 
 
-        private bool ValidateReservation(ReservationDTO reservationDTO)
-        {
-            if (reservationDTO.CheckIn >= DateTime.Now 
-                && reservationDTO.CheckOut > reservationDTO.CheckIn)
-                return true;
+        //private bool ValidateReservation(ReservationDTO reservationDTO)
+        //{
+        //    if (reservationDTO.CheckIn >= DateTime.Now 
+        //        && reservationDTO.CheckOut > reservationDTO.CheckIn)
+        //        return true;
 
-            throw new Exception("Check In must be in the future and Check Out after Check In");
-        }
+        //    throw new Exception("Check In must be in the future and Check Out after Check In");
+        //}
 
 
         public ReservationDTO Update(ReservationDTO reservationDTO)
         {
 
-            var validReservation = ValidateReservation(reservationDTO);
+            //var validReservation = ValidateReservation(reservationDTO);
 
             Reservation reservation = reservationDTO.MapOne<Reservation>();
 

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HotelReservationSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class test : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,6 +18,8 @@ namespace HotelReservationSystem.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Braintree_ID = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -31,9 +33,7 @@ namespace HotelReservationSystem.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    WI_FI = table.Column<bool>(type: "bit", nullable: false),
-                    AirConditioning = table.Column<bool>(type: "bit", nullable: false),
-                    TV = table.Column<bool>(type: "bit", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -47,6 +47,7 @@ namespace HotelReservationSystem.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -93,49 +94,63 @@ namespace HotelReservationSystem.Migrations
                     roomType = table.Column<int>(type: "int", nullable: false),
                     luxuryLevel = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<double>(type: "float", nullable: false),
-                    Pictures = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FacilitiesID = table.Column<int>(type: "int", nullable: false),
-                    IsAvailable = table.Column<bool>(type: "bit", nullable: false),
+                    Pictures = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Rooms", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Rooms_Facilities_FacilitiesID",
-                        column: x => x.FacilitiesID,
-                        principalTable: "Facilities",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Reservations",
+                name: "Payments",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CheckIn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CheckOut = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RoomID = table.Column<int>(type: "int", nullable: false),
-                    CustomerID = table.Column<int>(type: "int", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PaymentStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PaymentMethodNonce = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CustomerId = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Reservations", x => x.ID);
+                    table.PrimaryKey("PK_Payments", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Reservations_Customers_CustomerID",
-                        column: x => x.CustomerID,
+                        name: "FK_Payments_Customers_CustomerId",
+                        column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RoomsFacilities",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoomID = table.Column<int>(type: "int", nullable: false),
+                    FacilityID = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RoomsFacilities", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Reservations_Rooms_RoomID",
+                        name: "FK_RoomsFacilities_Facilities_FacilityID",
+                        column: x => x.FacilityID,
+                        principalTable: "Facilities",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RoomsFacilities_Rooms_RoomID",
                         column: x => x.RoomID,
                         principalTable: "Rooms",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -156,14 +171,54 @@ namespace HotelReservationSystem.Migrations
                         column: x => x.OfferID,
                         principalTable: "Offers",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_RoomsOffers_Rooms_RoomID",
                         column: x => x.RoomID,
                         principalTable: "Rooms",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Reservations",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CheckIn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CheckOut = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RoomID = table.Column<int>(type: "int", nullable: false),
+                    CustomerID = table.Column<int>(type: "int", nullable: false),
+                    PaymentID = table.Column<int>(type: "int", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reservations", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Reservations_Customers_CustomerID",
+                        column: x => x.CustomerID,
+                        principalTable: "Customers",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Reservations_Payments_PaymentID",
+                        column: x => x.PaymentID,
+                        principalTable: "Payments",
+                        principalColumn: "ID");
+                    table.ForeignKey(
+                        name: "FK_Reservations_Rooms_RoomID",
+                        column: x => x.RoomID,
+                        principalTable: "Rooms",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Payments_CustomerId",
+                table: "Payments",
+                column: "CustomerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_CustomerID",
@@ -171,14 +226,24 @@ namespace HotelReservationSystem.Migrations
                 column: "CustomerID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Reservations_PaymentID",
+                table: "Reservations",
+                column: "PaymentID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Reservations_RoomID",
                 table: "Reservations",
                 column: "RoomID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rooms_FacilitiesID",
-                table: "Rooms",
-                column: "FacilitiesID");
+                name: "IX_RoomsFacilities_FacilityID",
+                table: "RoomsFacilities",
+                column: "FacilityID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RoomsFacilities_RoomID",
+                table: "RoomsFacilities",
+                column: "RoomID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RoomsOffers_OfferID",
@@ -204,10 +269,16 @@ namespace HotelReservationSystem.Migrations
                 name: "Reviews");
 
             migrationBuilder.DropTable(
+                name: "RoomsFacilities");
+
+            migrationBuilder.DropTable(
                 name: "RoomsOffers");
 
             migrationBuilder.DropTable(
-                name: "Customers");
+                name: "Payments");
+
+            migrationBuilder.DropTable(
+                name: "Facilities");
 
             migrationBuilder.DropTable(
                 name: "Offers");
@@ -216,7 +287,7 @@ namespace HotelReservationSystem.Migrations
                 name: "Rooms");
 
             migrationBuilder.DropTable(
-                name: "Facilities");
+                name: "Customers");
         }
     }
 }
