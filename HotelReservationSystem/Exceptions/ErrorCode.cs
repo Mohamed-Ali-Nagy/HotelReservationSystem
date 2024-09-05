@@ -9,5 +9,8 @@
 
         //Facility 2000:3000
         InvalidFacilityID=2000,
+
+        //user 3000:4000
+        UnAuthorized=3000,
     }
 }

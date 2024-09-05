@@ -7,6 +7,7 @@ using HotelReservationSystem.Models;
 using HotelReservationSystem.ViewModels;
 using HotelReservationSystem.ViewModels.Reservation;
 using HotelReservationSystem.ViewModels.Room;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 
@@ -37,6 +38,7 @@ namespace HotelReservationSystem.Controllers
         }
 
         [HttpPost("Add")]
+        [Authorize(Roles ="Staff")]
         public IActionResult Add(RoomCreateVM roomCreateViewModel)
         {
             var roomResponseDTO = _roomMediator.Add(roomCreateViewModel.MapOne<RoomCreateDTO>());
@@ -45,6 +47,7 @@ namespace HotelReservationSystem.Controllers
         }
 
         [HttpPut("UpdateRoomPictures")]
+        [Authorize(Roles = "Staff")]
         public IActionResult UpdateRoomPictures(RoomPicturesVM roomPicturesVM)
         {
             int roomID = _roomMediator.UpdateRoomPictures(roomPicturesVM.MapOne<RoomPicturesDTO>());
@@ -59,6 +62,8 @@ namespace HotelReservationSystem.Controllers
         }
 
         [HttpPut("Update")]
+        [Authorize(Roles = "Staff")]
+
         public IActionResult Update(RoomUpdateVM roomUpdateVM)
         {
             var roomUpdateDTO=roomUpdateVM.MapOne<RoomUpdateDTO>();
@@ -67,6 +72,8 @@ namespace HotelReservationSystem.Controllers
         }
 
         [HttpDelete("Delete")]
+        [Authorize(Roles = "Staff")]
+
         public IActionResult Delete(int roomID)
         {
             _roomMediator.Delete(roomID);

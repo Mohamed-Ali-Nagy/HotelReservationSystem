@@ -10,6 +10,7 @@ using HotelReservationSystem.Mediators.Reservation;
 using HotelReservationSystem.Services.FacilityServices;
 using HotelReservationSystem.Mediators.FacilityMediators;
 using HotelReservationSystem.Mediators.RoomAvailability;
+using HotelReservationSystem.Services.UserServices;
 
 namespace Hotel
 {
@@ -35,6 +36,7 @@ namespace Hotel
             builder.RegisterType<RoomAvailabilityMediator>().As<IRoomAvailabilityMediator>().InstancePerLifetimeScope();
 
             builder.RegisterType<ReviewService>().As<IReviewService>().InstancePerLifetimeScope();
+            builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
             builder.RegisterType<ReviewMeditator>().As<IReviewMeditator>().InstancePerLifetimeScope();
         }
     }

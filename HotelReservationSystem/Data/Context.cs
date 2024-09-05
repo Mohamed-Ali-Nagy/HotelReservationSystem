@@ -23,6 +23,7 @@ namespace HotelReservationSystem.Data
         public DbSet<RoomOffer> RoomsOffers { get; set; }
 
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Customer> Users { get; set; }
         public DbSet<HotelStaff> HotelStaff { get; set; }
 
 
