@@ -20,7 +20,9 @@ namespace HotelReservationSystem.Models
         public int CustomerID { get; set; }
         public Customer Customer { get; set; }
 
-
+        //[ForeignKey("Payment")]
+        //public int PaymentID { get; set; }
+        //public Payment Payment { get; set; }
 
     }
 }

@@ -9,8 +9,13 @@
 
         //Facility 2000:3000
         InvalidFacilityID=2000,
+        InvalidPaymentID = 3000,
+        InvalidReservationID = 4000,
+        InvalidCustomerID = 7000,
 
-        //user 3000:4000
-        UnAuthorized=3000,
+        InvalidCustomerFromBraintree = 5000,
+
+        InvalidCreationTransaction = 6000,
+
     }
 }
