@@ -30,5 +30,9 @@ namespace HotelReservationSystem.Controllers
             }
             return Ok(ResultViewModel<bool>.Faliure("UnAuthorized", ErrorCode.UnAuthorized));
         }
+
+
+
+
     }
 }
