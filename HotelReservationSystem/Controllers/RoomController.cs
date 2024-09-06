@@ -38,7 +38,7 @@ namespace HotelReservationSystem.Controllers
         }
 
         [HttpPost("Add")]
-        [Authorize(Roles ="Staff")]
+        [Authorize(Roles ="Admin")]
         public IActionResult Add(RoomCreateVM roomCreateViewModel)
         {
             var roomResponseDTO = _roomMediator.Add(roomCreateViewModel.MapOne<RoomCreateDTO>());

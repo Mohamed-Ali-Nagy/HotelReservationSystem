@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HotelReservationSystem.DTO.UserDTOs;
+using HotelReservationSystem.Models;
 using HotelReservationSystem.ViewModels.UserVMs;
 
 namespace HotelReservationSystem.Profiles
@@ -8,7 +9,9 @@ namespace HotelReservationSystem.Profiles
     {
         public UserProfile()
         {
-            CreateMap<UserLoginVM, UserLoginDTO>();
+            CreateMap<UserRegistreVM, UserLoginDTO>();
+            CreateMap<UserRegisterVM, UserRegisterDTO>();
+            CreateMap<UserRegisterDTO,User>().ReverseMap();
         }
     }
 }

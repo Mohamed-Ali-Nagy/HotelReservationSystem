@@ -9,8 +9,8 @@
     }
     public enum Role
     {
-        Admin,
-        Staff,
-        Customre
+        Admin=1,
+        Staff=2,
+        Customre=3
     }
 }

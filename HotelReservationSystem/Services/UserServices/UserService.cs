@@ -2,6 +2,7 @@
 using HotelReservationSystem.Helpers;
 using HotelReservationSystem.Models;
 using HotelReservationSystem.Repositories;
+using HotelReservationSystem.ViewModels.UserVMs;
 
 namespace HotelReservationSystem.Services.UserServices
 {
@@ -28,6 +29,20 @@ namespace HotelReservationSystem.Services.UserServices
 
             string token = TokenHandler.GenerateToken(user.UserName, user.Role.ToString());
             return token;
+        }
+
+        public bool CheckUserName(string userName)
+        {
+         bool result=   _repository.GetAll().Any(u => u.UserName == userName);
+            return result;
+        }
+
+        public void AddUser(UserRegisterDTO userRegisterDTO)
+        {
+            userRegisterDTO.Role = Role.Customre;
+            _repository.Add(userRegisterDTO.MapOne<User>());
+            _repository.SaveChanges();
+
         }
     }
 }

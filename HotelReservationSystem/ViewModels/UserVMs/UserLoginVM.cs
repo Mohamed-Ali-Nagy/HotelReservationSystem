@@ -2,7 +2,7 @@
 
 namespace HotelReservationSystem.ViewModels.UserVMs
 {
-    public class UserLoginVM
+    public class UserRegistreVM
     {
         [Required]
         public string UserName { get; set; }

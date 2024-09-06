@@ -6,5 +6,7 @@ namespace HotelReservationSystem.Services.UserServices
     {
         public bool Authenticated(UserLoginDTO userLoginDTO);
         public string GenerateToken(UserLoginDTO userLoginDTO);
+        public bool CheckUserName(string userName);
+        public void AddUser(UserRegisterDTO userRegisterDTO);
     }
 }

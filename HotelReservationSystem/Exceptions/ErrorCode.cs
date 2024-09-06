@@ -18,7 +18,8 @@
         InvalidCreationTransaction = 2005,
 
         //user 3000:4000
-        UnAuthorized=4000
+        UnAuthorized=4000,
+        InvalidUserName=4001
 
     }
 }

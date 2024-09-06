@@ -20,7 +20,7 @@ namespace HotelReservationSystem.Controllers
         }
 
         [HttpPost("Login")]
-        public IActionResult Login(UserLoginVM userLoginVM)
+        public IActionResult Login(UserRegistreVM userLoginVM)
         {
             var isAuthenticated = _userService.Authenticated(userLoginVM.MapOne<UserLoginDTO>());
             if (isAuthenticated)
@@ -30,7 +30,17 @@ namespace HotelReservationSystem.Controllers
             }
             return Ok(ResultViewModel<bool>.Faliure("UnAuthorized", ErrorCode.UnAuthorized));
         }
-
+        [HttpPost("Register")]
+        public IActionResult Register(UserRegisterVM userRegisterVM)
+        {
+            var isExisted = _userService.CheckUserName(userRegisterVM.UserName);
+            if (isExisted)
+            {
+                return Ok(ResultViewModel<bool>.Faliure("Invalid user name or password", ErrorCode.InvalidUserName));
+            }
+            _userService.AddUser(userRegisterVM.MapOne<UserRegisterDTO>());
+            return Ok(ResultViewModel<bool>.Success(true,""));
+        }
 
 
 
