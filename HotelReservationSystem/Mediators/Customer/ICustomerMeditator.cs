@@ -7,7 +7,7 @@ namespace HotelReservationSystem.Mediators.CustomerMediators
     public interface ICustomerMeditator
     {
         public CustomerDTO Add(CustomerDTO reviewDTO);
-        public void Update(CustomerDTO reviewDTO);
+        public void Update(int id,CustomerDTO reviewDTO);
         public void Delete(int id);
         public CustomerDTO Get(int id);
         //public IEnumerable<ReviewDTO> GetAll();

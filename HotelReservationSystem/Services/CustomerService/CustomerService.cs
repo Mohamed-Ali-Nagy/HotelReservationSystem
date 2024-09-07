@@ -44,10 +44,12 @@ namespace HotelReservationSystem.Services.CustomerService
             return Reviews.MapOne<CustomerDTO>();
         }
 
-        public CustomerDTO Update(CustomerDTO customerDTO)
+        public CustomerDTO Update(int id,CustomerDTO customerDTO)
         {
             Customer customer = customerDTO.MapOne<Customer>();
 
+            var cust=_repository.GetByID(id);
+            customer.ID= cust.ID;
             Customer returnReview = _repository.Update(customer);
             _repository.SaveChanges();
             return returnReview.MapOne<CustomerDTO>();

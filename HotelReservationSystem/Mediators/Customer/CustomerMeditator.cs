@@ -70,9 +70,9 @@ namespace HotelReservationSystem.Mediators.CustomerMediators
             return _customerService.GetAll();
         }
 
-        public void Update(CustomerDTO reviewDTO)
+        public void Update(int id,CustomerDTO reviewDTO)
         {
-            _customerService.Update(reviewDTO);
+            _customerService.Update( id,reviewDTO);
         }
 
 

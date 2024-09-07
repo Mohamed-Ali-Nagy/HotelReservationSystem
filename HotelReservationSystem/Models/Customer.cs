@@ -9,7 +9,7 @@ namespace HotelReservationSystem.Models
         public string Email { get; set; }
 
         public string? Braintree_ID { get; set; }
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
         [Required]
         public int UserID { get; set; }
         public User User { get; set; }

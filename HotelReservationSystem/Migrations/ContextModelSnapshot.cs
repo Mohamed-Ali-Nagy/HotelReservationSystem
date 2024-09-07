@@ -30,6 +30,13 @@ namespace HotelReservationSystem.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
+                    b.Property<string>("Braintree_ID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -38,7 +45,6 @@ namespace HotelReservationSystem.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Phone")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserID")
@@ -116,6 +122,41 @@ namespace HotelReservationSystem.Migrations
                     b.ToTable("Offers");
                 });
 
+            modelBuilder.Entity("HotelReservationSystem.Models.Payment", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PaymentMethodNonce")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaymentStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Payments");
+                });
+
             modelBuilder.Entity("HotelReservationSystem.Models.Reservation", b =>
                 {
                     b.Property<int>("ID")
@@ -136,12 +177,17 @@ namespace HotelReservationSystem.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("PaymentID")
+                        .HasColumnType("int");
+
                     b.Property<int>("RoomID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
                     b.HasIndex("CustomerID");
+
+                    b.HasIndex("PaymentID");
 
                     b.HasIndex("RoomID");
 
@@ -286,6 +332,17 @@ namespace HotelReservationSystem.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("HotelReservationSystem.Models.Payment", b =>
+                {
+                    b.HasOne("HotelReservationSystem.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+                });
+
             modelBuilder.Entity("HotelReservationSystem.Models.Reservation", b =>
                 {
                     b.HasOne("HotelReservationSystem.Models.Customer", "Customer")
@@ -293,6 +350,10 @@ namespace HotelReservationSystem.Migrations
                         .HasForeignKey("CustomerID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("HotelReservationSystem.Models.Payment", null)
+                        .WithMany("Reservation")
+                        .HasForeignKey("PaymentID");
 
                     b.HasOne("HotelReservationSystem.Models.Room", "Room")
                         .WithMany("Reservation")
@@ -356,6 +417,11 @@ namespace HotelReservationSystem.Migrations
             modelBuilder.Entity("HotelReservationSystem.Models.Offer", b =>
                 {
                     b.Navigation("Rooms");
+                });
+
+            modelBuilder.Entity("HotelReservationSystem.Models.Payment", b =>
+                {
+                    b.Navigation("Reservation");
                 });
 
             modelBuilder.Entity("HotelReservationSystem.Models.Room", b =>

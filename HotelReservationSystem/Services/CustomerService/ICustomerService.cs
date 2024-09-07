@@ -12,7 +12,7 @@ namespace HotelReservationSystem.Services.CustomerService
 
         CustomerDTO Add(CustomerDTO reviewDTO);
 
-        CustomerDTO Update(CustomerDTO reviewDTO);
+        CustomerDTO Update(int id,CustomerDTO reviewDTO);
 
         void Delete(CustomerDTO reviewDTO);
     }

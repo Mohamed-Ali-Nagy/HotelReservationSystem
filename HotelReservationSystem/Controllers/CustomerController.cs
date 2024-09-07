@@ -35,9 +35,9 @@ namespace HotelReservationSystem.Controllers
         }
 
         [HttpPut("Update")]
-        public IActionResult Update(CustomerViewModel customerVM)
+        public IActionResult Update(int id,CustomerViewModel customerVM)
         {
-            _mediator.Update(customerVM.MapOne<CustomerDTO>());
+            _mediator.Update(id,customerVM.MapOne<CustomerDTO>());
             return Ok(ResultViewModel<bool>.Success(true));
         }
 

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HotelReservationSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class test : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -163,7 +163,9 @@ namespace HotelReservationSystem.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Braintree_ID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserID = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -179,6 +181,30 @@ namespace HotelReservationSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Payments",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PaymentStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PaymentMethodNonce = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CustomerId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Payments", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Payments_Customer_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customer",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Reservations",
                 columns: table => new
                 {
@@ -188,6 +214,7 @@ namespace HotelReservationSystem.Migrations
                     CheckOut = table.Column<DateTime>(type: "datetime2", nullable: false),
                     RoomID = table.Column<int>(type: "int", nullable: false),
                     CustomerID = table.Column<int>(type: "int", nullable: false),
+                    PaymentID = table.Column<int>(type: "int", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -199,6 +226,11 @@ namespace HotelReservationSystem.Migrations
                         principalTable: "Customer",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Reservations_Payments_PaymentID",
+                        column: x => x.PaymentID,
+                        principalTable: "Payments",
+                        principalColumn: "ID");
                     table.ForeignKey(
                         name: "FK_Reservations_Rooms_RoomID",
                         column: x => x.RoomID,
@@ -213,9 +245,19 @@ namespace HotelReservationSystem.Migrations
                 column: "UserID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Payments_CustomerId",
+                table: "Payments",
+                column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Reservations_CustomerID",
                 table: "Reservations",
                 column: "CustomerID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_PaymentID",
+                table: "Reservations",
+                column: "PaymentID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_RoomID",
@@ -262,7 +304,7 @@ namespace HotelReservationSystem.Migrations
                 name: "RoomsOffers");
 
             migrationBuilder.DropTable(
-                name: "Customer");
+                name: "Payments");
 
             migrationBuilder.DropTable(
                 name: "Facilities");
@@ -272,6 +314,9 @@ namespace HotelReservationSystem.Migrations
 
             migrationBuilder.DropTable(
                 name: "Rooms");
+
+            migrationBuilder.DropTable(
+                name: "Customer");
 
             migrationBuilder.DropTable(
                 name: "User");
